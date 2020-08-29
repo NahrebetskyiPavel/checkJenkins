@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Non-Parallel Stage') {
             steps {
-                echo 'This stage will be executed first.'
+                echo $MYVARNAME_USR
             }
         }
         stage('Parallel Stage') {
