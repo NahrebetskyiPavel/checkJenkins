@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { node { label 'ubuntu' } 
 
     stages {
         stage('My-JenkinsBuild-Steps') {
