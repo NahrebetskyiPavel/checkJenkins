@@ -1,42 +1,48 @@
 pipeline {
-    agent none
+    agent any
+    options {
+        parallelsAlwaysFailFast()
+    }
     stages {
-        stage('Non-Sequential Stage') {
-            agent {
-                label 'ubuntu'
-            }
+        stage('Non-Parallel Stage') {
             steps {
-                echo "On Non-Sequential Stage"
+                echo 'This stage will be executed first.'
             }
         }
-        stage('Sequential') {
-            agent {
-                label 'ubuntu'
+        stage('Parallel Stage') {
+            when {
+                branch 'master'
             }
-            environment {
-                FOR_SEQUENTIAL = "some-value"
-            }
-            stages {
-                stage('In Sequential 1') {
+            parallel {
+                stage('Branch A') {
+                    agent {
+                        label "ubuntu"
+                    }
                     steps {
-                        echo "In Sequential 1"
+                        echo "ubuntu"
                     }
                 }
-                stage('In Sequential 2') {
+                stage('Branch B') {
+                    agent {
+                        label "ubuntu"
+                    }
                     steps {
-                        echo "In Sequential 2"
+                        echo "ubuntu"
                     }
                 }
-                stage('Parallel In Sequential') {
-                    parallel {
-                        stage('In Parallel 1') {
+                stage('Branch C') {
+                    agent {
+                        label "ubuntu"
+                    }
+                    stages {
+                        stage('Nested 1') {
                             steps {
-                                echo "In Parallel 1"
+                                echo "In stage Nested 1 within Branch C"
                             }
                         }
-                        stage('In Parallel 2') {
+                        stage('Nested 2') {
                             steps {
-                                echo "In Parallel 2"
+                                echo "In stage Nested 2 within Branch C"
                             }
                         }
                     }
