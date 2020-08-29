@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Non-Parallel Stage') {
             steps {
-                echo ${IAMJENKINS}
+                echo "${IAMJENKINS}"
             }
         }
         stage('Parallel Stage') {
